@@ -1,5 +1,9 @@
 # TP2- Jeux de mots Synthèse et analyse spectrale d’une gamme de musique
 
+
+<img width="999" alt="33333333333" src="https://user-images.githubusercontent.com/89936910/210168128-3f8b6049-33ad-415c-9045-6f0b7aacab70.png">
+
+
 <summary>Table of Contents</summary>
   <ol>      
       <li><a href="#Objectifs">Objectifs</a></li>
@@ -84,6 +88,7 @@ il_faut = y(95395:141652);
 
 partir_a_point  = y(141652:198500);
 ```
+
 7- Notez que le signal initial de parole est un vecteur colonne contenant un certain nombre de valeurs (length(x)). Réarrangez ce vecteur pour écouter la phrase synthétisée « Rien ne sert de partir à point, il faut courir ». 
 
 ```matlab
@@ -105,35 +110,70 @@ sound(vector,fs);
 | 262 Hz  | 294 Hz  | 330 Hz  | 349 Hz  | 392 Hz  | 440 Hz  | 494 Hz  | 523 Hz  |
 
 ```matlab
-clear all
-close all
-clc
-fe = 8192;
-te = 1/fe
-t = 0:te:1;
-do1 = sin(2*pi*262*t);
-re = sin(2*pi*249*t);
-mi = sin(2*pi*330*t);
-fa = sin(2*pi*349*t);
-sol = sin(2*pi*392*t);
-la = sin(2*pi*440*t);
-si = sin(2*pi*494*t);
-do2 = sin(2*pi*523*t);
+ clear all
+  close all
+  clc
 
+  fe=8192; %La fréquence d’échantillonnage
+  te=1/fe;
+  ts=0:te:1;
+   
+    %La fréquence de chaque note de la gamme
+  fdol=262;
+  fRe=294;
+  fMi=330;
+  fFa=349;
+  fSol=392;
+  fLa=440;
+  fSi=494;
+  fDo2=523;
+   
+  DOl=sin(2*fdol*pi*ts);
+  RE=sin(2*fRe*pi*ts);  
+  MI=sin(2*fMi*pi*ts);
+  FA=sin(2*fFa*pi*ts);
+  SOL=sin(2*fSol*pi*ts);
+  LA=sin(2*fLa*pi*ts);
+  SI=sin(2*fSi*pi*ts); 
+  DO2=sin(2*fDo2*pi*ts);
+  lagamme=[DOl RE MI FA SOL LA SI DO2];
+  
+  sound (lagamme, fe ) ;
 ```
 - **Synthèse d’une gamme de musique**
 
 2- Utilisez l’outil graphique d’analyse de signaux signalAnalyzer pour visualiser le spectre de votre gamme. Observez les 8 fréquences contenues dans la gamme et vérifiez leur valeur numérique à l’aide des curseurs.
 
-
+>la Gamme
+<img width="999" alt="444" src="https://user-images.githubusercontent.com/89936910/210167555-2929b57a-ca8e-4ea6-abea-ee4cb3274974.png">
+>le spectre
+<img width="999" alt="11111" src="https://user-images.githubusercontent.com/89936910/210167557-632ad63b-30cf-4a26-a7ff-b351e5207dc7.png">
 
 3- Tracez le spectrogramme qui permet de visualiser le contenu fréquentiel du signal au cours du temps (comme le fait une partition de musique) mais la précision sur l’axe des fréquences n’est pas suffisante pour relever précisément les 8 fréquences.
+
+<img width="999" alt="Screenshot 2023-01-01 112326" src="https://user-images.githubusercontent.com/89936910/210167605-d2371732-8c7c-4b1c-a634-6d8194f3af0b.png">
+
+
 
 - **Approximation du spectre d’un signal sinusoïdal à temps continu par FFT**
 
 4- Le spectre d’un signal à temps continu peut être approché par transformée de Fourier discrète (TFD) ou sa version rapide (Fast Fourier Transform (FFT). Afficher le spectre de fréquence de la gamme musicale crée en échelle linéaire, puis avec une échelle en décibels.
+```matlab
+DS=abs(fft(gamme));
+N=length(gamme)
+subplot(2,1,1)
+plot(DS);
+title('Fft de la gamme');
+k=mag2db(DS);
+subplot(2,1,2)
 
+%avec une échelle en décibels.
+fshift=(-N/2:N/2 -1 )*fe/N;
+plot(fshift,fftshift(k));
+```
+<img width="999" alt="k" src="https://user-images.githubusercontent.com/89936910/210167775-350cc715-563b-45f2-ad2f-38113c5add4a.png">
 
+# 
 
-# Réalisé par : Shadia AIT EL CADI
- **Encadré par  : [Pr. AMMOUR Alae]**
+-  **Réalisé par : Shadia AIT EL CADI** 
+-  **Encadré par  : [Pr. AMMOUR Alae]**
